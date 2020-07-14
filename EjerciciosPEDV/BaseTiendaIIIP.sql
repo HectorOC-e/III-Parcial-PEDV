@@ -23,17 +23,18 @@ create procedure insertarUsuario(
 @nombreUsuario varchar(25),
 @psw varchar(40),
 @rol char(15),
-@estado char(25)
+@estado char(25),
+@correo varchar(25)
 )
 AS 
 BEGIN
 if exists (select nombreUsuario from Usuario where nombreUsuario=@nombreUsuario and estado = 'Activo')
 raiserror ('Ya existe un registro con el nombre de ese usuario, porfavor ingresa uno nuevo')
 else
-insert into Usuario values(@idUsuario,@nombre,@apellido,@nombreUsuario,@psw,@rol,@estado)
+insert into Usuario values(@idUsuario,@nombre,@apellido,@nombreUsuario,@psw,@rol,@estado,@correo)
 END
 
-execute insertarUsuario 1,'Pedro','Perez','´Pedrez','1234','Admin','Activo'
+execute insertarUsuario 1,'Hector','Osorio','Â´HEOC','1234','Admin','Activo','osoriohector89@gmail.com'
 
 create procedure modificarUsuario(
 @idUsuario int primary key,
