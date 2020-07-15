@@ -24,7 +24,7 @@ create procedure insertarUsuario(
 @psw varchar(40),
 @rol char(15),
 @estado char(25),
-@correo varchar(25)
+@correo varchar(45)
 )
 AS 
 BEGIN
@@ -34,7 +34,7 @@ else
 insert into Usuario values(@idUsuario,@nombre,@apellido,@nombreUsuario,@psw,@rol,@estado,@correo)
 END
 
-execute insertarUsuario 1,'Hector','Osorio','´HEOC','1234','Admin','Activo','osoriohector89@gmail.com'
+execute insertarUsuario 1,'Pedro','Perez','´Pedrez','1234','Admin','Activo'
 
 create procedure modificarUsuario(
 @idUsuario int primary key,
@@ -43,11 +43,25 @@ create procedure modificarUsuario(
 @nombreUsuario varchar(25),
 @psw varchar(40),
 @rol char(15),
-@estado char(25)
+@estado char(25),
+@correo varchar(25)
 )
 AS 
 BEGIN
 if exists (select nombreUsuario,idUsuario from Usuario where (nombreUsuario=@nombreUsuario and idUsuario=@idUsuario and estado = 'Activo'))
 raiserror ('Usuario en uso, Utiliza otro por favor')
-update 
+update Usuario set nombre = @nombre, apellido = @apellido, psw = @psw, rol = @rol, correo = @correo
+where idUsuario = @idUsuario
+END
+
+Create procedure eliminarUsuario(
+@idUsuario int, @rol char(15) 
+)
+AS
+BEGIN
+if exists (select nombreUsuario from Usuario where @rol = 'admin')
+	raiserror('El usuario *admin*, No se puede eliminar, accion denegada',16,1)
+	else
+	update Usuario set estado = 'Eliminado'
+	where idUsuario = @idUsuario and rol <> 'admin'
 END
