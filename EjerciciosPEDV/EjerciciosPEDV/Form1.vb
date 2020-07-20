@@ -6,7 +6,6 @@ Public Class Form1
         conexion.conectar()
     End Sub
 
-    'username@midominio.com
     Private Function validarCorreo(ByVal isCorreo As String) As Boolean
         Return Regex.IsMatch(isCorreo, "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
     End Function
