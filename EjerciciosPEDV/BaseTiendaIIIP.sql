@@ -29,7 +29,7 @@ create procedure insertarUsuario(
 AS 
 BEGIN
 if exists (select nombreUsuario from Usuario where nombreUsuario=@nombreUsuario and estado = 'Activo')
-raiserror ('Ya existe un registro con el nombre de ese usuario, porfavor ingresa uno nuevo')
+raiserror('Ya existe un registro con el nombre de ese usuario, porfavor ingresa uno nuevo',16,1)
 else
 insert into Usuario(idUsuario,nombre,apellido,nombreUsuario,psw,rol,estado,correo) values(@idUsuario,@nombre,@apellido,@nombreUsuario,@psw,@rol,@estado,@correo)
 END
@@ -49,7 +49,7 @@ create procedure modificarUsuario(
 AS 
 BEGIN
 if exists (select nombreUsuario,idUsuario from Usuario where (nombreUsuario=@nombreUsuario and idUsuario=@idUsuario and estado = 'Activo'))
-raiserror ('Usuario en uso, Utiliza otro por favor')
+raiserror ('Usuario en uso, Utiliza otro por favor',16,1)
 update Usuario set nombre = @nombre, apellido = @apellido, psw = @psw, rol = @rol, correo = @correo
 where idUsuario = @idUsuario
 END
@@ -102,8 +102,11 @@ decryption by certificate TiendaIIIPHOC01;
 select convert(nvarchar(20),DECRYPTBYKEY(Passwd)) as [psw descifrado], Passwd from Usuario
 close symmetryc key psw_key_01;
 
-create procedure BuscarUsuario(@idUsuario as int)
+create procedure BuscarUsuario(@userName varchar(50))
 as
 begin
-select * from Usuario where idUsuario=@idUsuario
+select CONCAT(nombre, ' ', apellido) as 'Nombre Completo', nombreUsuario as 'Usuario',
+estado as 'Estado', rol as 'Puesto', correo as 'correo'
+from Usuario
+where nombreUsuario like '%' +@userName+ '%'
 end
