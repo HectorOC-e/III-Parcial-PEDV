@@ -64,12 +64,13 @@ Public Class conexion
         End Try
     End Function
 
-    Public Function BuscarUsuario(idUsuario As Integer)
+    Public Function BuscarUsuario(userName As String)
+
         Try
             conexion.Open()
             cmb = New SqlCommand("BuscarUsuario", conexion)
             cmb.CommandType = CommandType.StoredProcedure
-            cmb.Parameters.AddWithValue("@idUsuario", idUsuario)
+            cmb.Parameters.AddWithValue("@userName", userName)
 
             If cmb.ExecuteNonQuery <> 0 Then
                 Return True

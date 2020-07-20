@@ -101,10 +101,10 @@ Public Class Form1
     End Sub
 
     Private Sub BuscarUsuario()
-        Dim idUsuario As Integer
-        idUsuario = txtcodigo.Text
+        Dim userName As String
+        userName = txtUserName.Text
         Try
-            If (conexion.BuscarUsuario(idUsuario)) Then
+            If (conexion.BuscarUsuario(userName)) Then
                 MsgBox("Usuario Encontrado")
 
             Else
