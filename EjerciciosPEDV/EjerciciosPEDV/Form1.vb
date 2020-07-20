@@ -10,7 +10,6 @@ Public Class Form1
         Return Regex.IsMatch(isCorreo, "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$")
     End Function
 
-
     Private Sub limpiar()
         txtcodigo.Clear()
         txtNombre.Clear()
@@ -27,7 +26,7 @@ Public Class Form1
             txtCorreo.SelectAll()
         Else
             insertarUsuaurio()
-            'MessageBox.Show("Correo valido", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            MessageBox.Show("Correo valido", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information)
             conexion.conexion.Close()
         End If
 
@@ -89,10 +88,10 @@ Public Class Form1
         Try
             If (conexion.eliminarUsuario(idUsuario, rol)) Then
                 MsgBox("Dado de baja")
-                'conexion.conexion.Close()
+
             Else
                 MsgBox("Error al dar de baja usuario")
-                'conexion.conexion.Close()
+
             End If
         Catch ex As Exception
             MsgBox(ex.Message)

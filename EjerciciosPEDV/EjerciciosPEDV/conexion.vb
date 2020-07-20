@@ -5,6 +5,7 @@ Public Class conexion
     Public da As SqlDataAdapter
     Public cmb As SqlCommand
     Public dr As SqlDataReader
+
     Public Sub conectar()
         Try
             conexion.Open()
