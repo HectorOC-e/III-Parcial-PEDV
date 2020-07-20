@@ -101,3 +101,9 @@ decryption by certificate TiendaIIIPHOC01;
 
 select convert(nvarchar(20),DECRYPTBYKEY(Passwd)) as [psw descifrado], Passwd from Usuario
 close symmetryc key psw_key_01;
+
+create procedure BuscarUsuario(@idUsuario as int)
+as
+begin
+select * from Usuario where idUsuario=@idUsuario
+end
