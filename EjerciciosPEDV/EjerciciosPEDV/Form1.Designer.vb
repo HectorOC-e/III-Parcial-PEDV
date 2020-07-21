@@ -42,7 +42,10 @@ Partial Class Form1
         Me.btnEliminar = New System.Windows.Forms.Button()
         Me.btnBuscar = New System.Windows.Forms.Button()
         Me.btnModificar = New System.Windows.Forms.Button()
+        Me.dgvBase = New System.Windows.Forms.DataGridView()
+        Me.btnSalir = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.dgvBase, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GroupBox1
@@ -71,6 +74,7 @@ Partial Class Form1
         'cmbRol
         '
         Me.cmbRol.FormattingEnabled = True
+        Me.cmbRol.Items.AddRange(New Object() {"Cajero", "Admin"})
         Me.cmbRol.Location = New System.Drawing.Point(145, 283)
         Me.cmbRol.Name = "cmbRol"
         Me.cmbRol.Size = New System.Drawing.Size(174, 24)
@@ -87,8 +91,10 @@ Partial Class Form1
         '
         Me.txtPsw.Location = New System.Drawing.Point(145, 236)
         Me.txtPsw.Name = "txtPsw"
+        Me.txtPsw.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
         Me.txtPsw.Size = New System.Drawing.Size(174, 22)
         Me.txtPsw.TabIndex = 11
+        Me.txtPsw.UseSystemPasswordChar = True
         '
         'txtUserName
         '
@@ -226,11 +232,32 @@ Partial Class Form1
         Me.btnModificar.Text = "Modificar"
         Me.btnModificar.UseVisualStyleBackColor = True
         '
+        'dgvBase
+        '
+        Me.dgvBase.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvBase.Location = New System.Drawing.Point(408, 12)
+        Me.dgvBase.Name = "dgvBase"
+        Me.dgvBase.RowHeadersWidth = 51
+        Me.dgvBase.RowTemplate.Height = 24
+        Me.dgvBase.Size = New System.Drawing.Size(477, 387)
+        Me.dgvBase.TabIndex = 6
+        '
+        'btnSalir
+        '
+        Me.btnSalir.Location = New System.Drawing.Point(114, 440)
+        Me.btnSalir.Name = "btnSalir"
+        Me.btnSalir.Size = New System.Drawing.Size(75, 23)
+        Me.btnSalir.TabIndex = 7
+        Me.btnSalir.Text = "Salir"
+        Me.btnSalir.UseVisualStyleBackColor = True
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(398, 475)
+        Me.ClientSize = New System.Drawing.Size(916, 475)
+        Me.Controls.Add(Me.btnSalir)
+        Me.Controls.Add(Me.dgvBase)
         Me.Controls.Add(Me.btnModificar)
         Me.Controls.Add(Me.btnBuscar)
         Me.Controls.Add(Me.btnEliminar)
@@ -242,6 +269,7 @@ Partial Class Form1
         Me.Text = "Form1"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.dgvBase, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -266,4 +294,6 @@ Partial Class Form1
     Friend WithEvents btnEliminar As Button
     Friend WithEvents btnBuscar As Button
     Friend WithEvents btnModificar As Button
+    Friend WithEvents dgvBase As DataGridView
+    Friend WithEvents btnSalir As Button
 End Class

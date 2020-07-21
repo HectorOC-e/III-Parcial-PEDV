@@ -1,7 +1,10 @@
 ﻿Imports System.Text.RegularExpressions
 Public Class Form1
-
+    Dim ConexionBaseClientes As conexion = New conexion()
+    Dim DataT As New DataTable
     Dim conexion As New conexion()
+
+
     Private Sub frmUsuario_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         conexion.conectar()
     End Sub
@@ -102,12 +105,15 @@ Public Class Form1
         Dim userName As String
         userName = txtUserName.Text
         Try
-            If (conexion.BuscarUsuario(userName)) Then
-                MsgBox("Usuario Encontrado")
-
+            DataT = conexion.BuscarUsuario(userName)
+            If DataT.Rows.Count <> 0 Then
+                MessageBox.Show("Usuario Encontrado correctamente", "Buscando", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                dgvBase.DataSource = DataT
+                txtUserName.Text = ""
             Else
-                MsgBox("Error al buscar usuario")
-
+                MessageBox.Show("Usuario no encontrado", "Buscando", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                dgvBase.DataSource = Nothing
+                txtUserName.Text = ""
             End If
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -128,5 +134,9 @@ Public Class Form1
 
     Private Sub btnBuscar_Click(sender As Object, e As EventArgs) Handles btnBuscar.Click
         BuscarUsuario()
+    End Sub
+
+    Private Sub btnSalir_Click(sender As Object, e As EventArgs) Handles btnSalir.Click
+        End
     End Sub
 End Class

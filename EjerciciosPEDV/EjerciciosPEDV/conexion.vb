@@ -26,7 +26,7 @@ Public Class conexion
             cmb.Parameters.AddWithValue("@idUsuario", idUsuario)
             cmb.Parameters.AddWithValue("@nombre", nombre)
             cmb.Parameters.AddWithValue("@apellido", apellido)
-            cmb.Parameters.AddWithValue("@userName", userName)
+            cmb.Parameters.AddWithValue("@nombreUsuario", userName)
             cmb.Parameters.AddWithValue("@psw", psw)
             cmb.Parameters.AddWithValue("@rol", rol)
             cmb.Parameters.AddWithValue("@estado", estado)
@@ -72,14 +72,18 @@ Public Class conexion
             cmb.CommandType = CommandType.StoredProcedure
             cmb.Parameters.AddWithValue("@userName", userName)
 
-            If cmb.ExecuteNonQuery <> 0 Then
-                Return True
+            If cmb.ExecuteNonQuery Then
+                Dim dt As New DataTable
+                Dim da As New SqlDataAdapter(cmb)
+                da.Fill(dt)
+                Return dt
+                conexion.Close()
             Else
-                Return False
+                Return Nothing
             End If
         Catch ex As Exception
             MsgBox(ex.Message)
-            Return False
+            Return Nothing
         Finally
             conexion.Close()
         End Try
@@ -94,7 +98,7 @@ Public Class conexion
             cmb.Parameters.AddWithValue("@idUsuario", idUsuario)
             cmb.Parameters.AddWithValue("@nombre", nombre)
             cmb.Parameters.AddWithValue("@apellido", apellido)
-            cmb.Parameters.AddWithValue("@userName", userName)
+            cmb.Parameters.AddWithValue("@nombreUsuario", userName)
             cmb.Parameters.AddWithValue("@psw", psw)
             cmb.Parameters.AddWithValue("@rol", rol)
             cmb.Parameters.AddWithValue("@estado", estado)
