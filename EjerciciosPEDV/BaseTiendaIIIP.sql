@@ -115,6 +115,14 @@ go
 open symmetric Key ClaveSimetrica
 decryption by certificate TiendaIIIPHOC01;
 
-select convert(varchar(40),DECRYPTBYKEY(Passwd)) as Contraseña, nombreUsuario from Usuario
-close symmetric key ClaveSimetrica
-select * from Usuario
+select convert(nvarchar(20),DECRYPTBYKEY(Passwd)) as [psw descifrado], Passwd from Usuario
+close symmetryc key psw_key_01;
+
+create procedure BuscarUsuario(@userName varchar(50))
+as
+begin
+select CONCAT(nombre, ' ', apellido) as 'Nombre Completo', nombreUsuario as 'Usuario',
+estado as 'Estado', rol as 'Puesto', correo as 'correo'
+from Usuario
+where nombreUsuario like '%' +@userName+ '%'
+end
