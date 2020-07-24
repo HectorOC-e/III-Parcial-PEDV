@@ -14,7 +14,6 @@ estado char(25) not null,
 correo char(45) not null
 )
 
-select * from Usuario
 
 create procedure insertarUsuario(
 @idUsuario int,
@@ -34,7 +33,7 @@ else
 insert into Usuario(idUsuario,nombre,apellido,nombreUsuario,psw,rol,estado,correo) values(@idUsuario,@nombre,@apellido,@nombreUsuario,@psw,@rol,@estado,@correo)
 END
 
-execute insertarUsuario 1,'Pedro','Perez','´Pedrez','1234','Admin','Activo'
+execute insertarUsuario 1,'Pedro','Perez','´Pedrez','1234','Admin','Activo','pedrope@gmail.com'
 
 create procedure modificarUsuario(
 @idUsuario int,
@@ -66,41 +65,7 @@ if exists (select nombreUsuario from Usuario where @rol = 'admin')
 	where idUsuario = @idUsuario and rol <> 'admin'
 END
 
-create master key encryption by
-password = 'SimplePassword';
-go
 
-create certificate TiendaIIIPHOC01
-with subject='TiendaIIIPHOC';
-go
-
-select * from sys.certificates
-go
-
-create symmetric key psw_key_01
-with algorithm = triple_des
-encryption by certificate TiendaIIIPHOC01;
-go
-
-alter table Usuario
-add Passwd varbinary(128);
-
-open symmetric key psw_key_01
-decryption by certificate TiendaIIIPHOC01;
-
-update Usuario
-set Passwd = ENCRYPTBYKEY(KEY_GUID('psw_key_01'),convert(nvarchar(20),psw));
-
-close symmetric key psw_key_01;
-
-go
-
-
-open symmetric key psw_key_01
-decryption by certificate TiendaIIIPHOC01;
-
-select convert(nvarchar(20),DECRYPTBYKEY(Passwd)) as [psw descifrado], Passwd from Usuario
-close symmetryc key psw_key_01;
 
 create procedure BuscarUsuario(@userName varchar(50))
 as
@@ -110,3 +75,46 @@ estado as 'Estado', rol as 'Puesto', correo as 'correo'
 from Usuario
 where nombreUsuario like '%' +@userName+ '%'
 end
+
+
+------Encriptar--------
+create master key encryption by
+password = 'clave12345678';
+go
+
+
+create certificate TiendaIIIPHOC01
+with subject='TiendaIIIPHOC';
+go
+
+select * from sys.certificates
+go
+
+create symmetric key ClaveSimetrica
+with algorithm = AES_128
+encryption by certificate TiendaIIIPHOC01;
+go
+
+alter table Usuario
+add Passwd varbinary(128);
+
+open symmetric key ClaveSimetrica
+decryption by certificate TiendaIIIPHOC01;
+go
+
+
+update Usuario
+set Passwd = ENCRYPTBYKEY (KEY_GUID('ClaveSimetrica'),psw)
+from Usuario
+
+close symmetric key ClaveSimetrica;
+go
+
+
+-----Desencriptar------
+open symmetric Key ClaveSimetrica
+decryption by certificate TiendaIIIPHOC01;
+
+select convert(varchar(40),DECRYPTBYKEY(Passwd)) as Contraseña, nombreUsuario from Usuario
+close symmetric key ClaveSimetrica
+select * from Usuario
